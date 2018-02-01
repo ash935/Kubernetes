@@ -1,7 +1,7 @@
 var speech = require('google-speech-microphone');
 
 speech.getSpeechService({
-    GOOGLE_APPLICATION_CREDENTIALS: 'C:\\Users\\admin\\WebstormProjects\\node-js-SpeechRecognition\\samples\\My First Project.json',
+    GOOGLE_APPLICATION_CREDENTIALS: 'path',
 
 })
     .then(speechService => {
