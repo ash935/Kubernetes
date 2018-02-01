@@ -422,7 +422,7 @@ function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
     var resume = true;
     // Creates a client
     const client = new speech.SpeechClient({
-        keyFilename: 'C:\\Users\\admin\\WebstormProjects\\node-js-SpeechRecognition\\samples\\My First Project.json'
+        keyFilename: 'path'
     });
 
     /**
