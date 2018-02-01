@@ -408,6 +408,8 @@ function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
     /* var mic=require('mic');
      var fs = require('fs');
 
+
+
      var micInstance = mic({
          rate: '48000',
          channels: '1',
@@ -416,6 +418,15 @@ function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
 
      });*/
 
+
+    var apiai = require("apiai");
+
+    var app = apiai('API_KEY');
+
+    var options = {
+        sessionId: '<UNIQE SESSION ID>'
+    };
+    var text_request,response;
     // Imports the Google Cloud client library
     const speech = require('@google-cloud/speech');
     const gr_pc = require('grpc');
@@ -452,15 +463,20 @@ function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
             .on('data', data =>
                 console.log(
                     data.results[0] && data.results[0].alternatives[0]
-                        ? `Transcription: ${data.results[0].alternatives[0].transcript+'\n\n'}\n`
+                        ? `Transcription: ${data.results[0].alternatives[0].transcript+ '\n\n '} `
                         : streamrecognize()
                 )
-            );
+            )
+            .on('data',data=>(app.textRequest(data.results[0].alternatives[0].transcript, options)).on('response',function(response){console.log((response.result.fulfillment.speech))}).end());
         //}
         // Start recording and send the microphone input to the Speech API
         //var micInputStream = micInstance.getAudioStream();
 
         // micInputStream.pipe(recognizeStream);
+
+        function dresponse(response){
+            console.log('Response'+response);
+        }
         record
             .start({
                 sampleRateHertz: sampleRateHertz,

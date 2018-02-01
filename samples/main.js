@@ -25,13 +25,13 @@ var options = {
     sessionId: '<UNIQE SESSION ID>'
 };
 
-var request = app.textRequest(r.text_request, options);
 
-request.on('response', function(response) {
+app.textRequest(r.text_request, options)
+.on('response', function(response) {
     console.log(response);
-});
+})
 
-request.on('error', function(error) {
+.on('error', function(error) {
     console.log(error);
 });
 

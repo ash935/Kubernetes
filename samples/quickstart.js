@@ -21,7 +21,7 @@ const speech = require('@google-cloud/speech');
 const fs = require('fs');
 
 // Your Google Cloud Platform project ID
-const projectId = 'level-mark-193122';
+const projectId = 'Project_ID';
 
 // Creates a client
 const client = new speech.SpeechClient({
