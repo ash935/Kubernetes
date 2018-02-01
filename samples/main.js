@@ -19,7 +19,7 @@ var r=require('./recognize.js')
 // var apiai = require("../module/apiai");
 var apiai = require("apiai");
 
-var app = apiai('d2272d2d1a4041f2995692b250fadd74');
+var app = apiai('API_KEY');
 
 var options = {
     sessionId: '<UNIQE SESSION ID>'
