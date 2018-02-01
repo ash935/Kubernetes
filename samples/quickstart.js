@@ -26,7 +26,7 @@ const projectId = 'level-mark-193122';
 // Creates a client
 const client = new speech.SpeechClient({
 
-    keyFilename: 'C:\\Users\\admin\\WebstormProjects\\node-js-SpeechRecognition\\samples\\My First Project-b49e81170521.json'
+    keyFilename: 'C:\\Users\\admin\\WebstormProjects\\node-js-SpeechRecognition\\samples\\My First Project.json'
 });
 
 // The name of the audio file to transcribe
