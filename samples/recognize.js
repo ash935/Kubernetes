@@ -402,7 +402,9 @@ function streamingRecognize(filename, encoding, sampleRateHertz, languageCode) {
 function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
     // [START speech_streaming_mic_recognize]
     const record = require('node-record-lpcm16');
-   var text_request;
+    const say = require('say');
+
+    var text_request;
     //var request = app.textRequest('Hello', options);
 
     /* var mic=require('mic');
@@ -455,8 +457,8 @@ function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
         };
 
     // Create a recognize stream
-    streamrecognize()
-    function streamrecognize() {
+    streamrecognize(request)
+    function streamrecognize(request) {
         const recognizeStream = client
             .streamingRecognize(request)
             .on('error', console.error)
@@ -464,10 +466,10 @@ function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
                 console.log(
                     data.results[0] && data.results[0].alternatives[0]
                         ? `Transcription: ${data.results[0].alternatives[0].transcript+ '\n\n '} `
-                        : streamrecognize()
+                        : streamrecognize(request)
                 )
             )
-            .on('data',data=>(app.textRequest(data.results[0].alternatives[0].transcript, options)).on('response',function(response){console.log((response.result.fulfillment.speech))}).end());
+            .on('data',data=>(app.textRequest(data.results[0].alternatives[0].transcript, options)).on('response',function(response){console.log((response.result.fulfillment.speech)),say.speak(response.result.fulfillment.speech)}).end());
         //}
         // Start recording and send the microphone input to the Speech API
         //var micInputStream = micInstance.getAudioStream();
