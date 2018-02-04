@@ -24,6 +24,25 @@
 'use strict';
 //var m=require('./main.js')
 
+require('dotenv').config()
+const express = require('express');
+const serverapp = express();
+
+serverapp.use(express.static(__dirname + '/views')); // html
+serverapp.use(express.static(__dirname + '/public')); // js, css, images
+
+const server = serverapp.listen(process.env.PORT || 5000, () => {
+    console.log('Express server listening on port %d in %s mode', server.address().port, serverapp.settings.env);
+});
+const io = require('socket.io')(server);
+io.on('connection', function(socket){
+    console.log('a user connected');
+});
+
+serverapp.get('/', (req, res) => {
+    res.sendFile('index.html');
+});
+
 function syncRecognize(filename, encoding, sampleRateHertz, languageCode) {
     // [START speech_sync_recognize]
     // Imports the Google Cloud client library
@@ -401,102 +420,123 @@ function streamingRecognize(filename, encoding, sampleRateHertz, languageCode) {
 
 function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
     // [START speech_streaming_mic_recognize]
-    const record = require('node-record-lpcm16');
-    const say = require('say');
+    io.on('connection',function(socket){
+        const record = require('node-record-lpcm16');
+        const say = require('say');
+        /*require('dotenv').config()
+        const express = require('express');
+        const serverapp = express();
 
-    var text_request;
-    //var request = app.textRequest('Hello', options);
+        serverapp.use(express.static(__dirname + '/views')); // html
+        serverapp.use(express.static(__dirname + '/public')); // js, css, images
 
-    /* var mic=require('mic');
-     var fs = require('fs');
+        const server = serverapp.listen(process.env.PORT || 5000, () => {
+            console.log('Express server listening on port %d in %s mode', server.address().port, serverapp.settings.env);
+        });
+        const io = require('socket.io')(server);
+        io.on('connection', function(socket){
+            console.log('a user connected');
+        });
+
+        serverapp.get('/', (req, res) => {
+            res.sendFile('index.html');
+        });*/
+        var text_request;
+        //var request = app.textRequest('Hello', options);
+
+        /* var mic=require('mic');
+         var fs = require('fs');
 
 
 
-     var micInstance = mic({
-         rate: '48000',
-         channels: '1',
-         debug: true,
-         exitOnSilence: 6,
+         var micInstance = mic({
+             rate: '48000',
+             channels: '1',
+             debug: true,
+             exitOnSilence: 6,
 
-     });*/
+         });*/
 
 
-    var apiai = require("apiai");
+        var apiai = require("apiai");
 
-    var app = apiai('API_KEY');
+        var app = apiai('API_KEY');
 
-    var options = {
-        sessionId: '<UNIQE SESSION ID>'
-    };
-    var text_request,response;
-    // Imports the Google Cloud client library
-    const speech = require('@google-cloud/speech');
-    const gr_pc = require('grpc');
-    var resume = true;
-    // Creates a client
-    const client = new speech.SpeechClient({
-        keyFilename: 'path'
-    });
-
-    /**
-     * TODO(developer): Uncomment the following lines before running the sample.
-     */
-        // const encoding = 'Encoding of the audio file, e.g. LINEAR16';
-        // const sampleRateHertz = 16000;
-        // const languageCode = 'BCP-47 language code, e.g. en-US';
-
-    const request = {
-            config: {
-                encoding: encoding,
-                sampleRateHertz: sampleRateHertz,
-                languageCode: languageCode,
-
-            },
-            interimResults: false,
-            verbose: true,// If you want interim results, set this to true
+        var options = {
+            sessionId: '<UNIQE SESSION ID>'
         };
+        var text_request,response;
+        // Imports the Google Cloud client library
+        const speech = require('@google-cloud/speech');
+        const gr_pc = require('grpc');
+        var resume = true;
+        // Creates a client
+        const client = new speech.SpeechClient({
+            keyFilename: 'path'
+        });
 
-    // Create a recognize stream
-    streamrecognize(request)
-    function streamrecognize(request) {
-        const recognizeStream = client
-            .streamingRecognize(request)
-            .on('error', console.error)
-            .on('data', data =>
-                console.log(
-                    data.results[0] && data.results[0].alternatives[0]
-                        ? `Transcription: ${data.results[0].alternatives[0].transcript+ '\n\n '} `
-                        : streamrecognize(request)
+        /**
+         * TODO(developer): Uncomment the following lines before running the sample.
+         */
+            // const encoding = 'Encoding of the audio file, e.g. LINEAR16';
+            // const sampleRateHertz = 16000;
+            // const languageCode = 'BCP-47 language code, e.g. en-US';
+
+        const request = {
+                config: {
+                    encoding: encoding,
+                    sampleRateHertz: sampleRateHertz,
+                    languageCode: languageCode,
+
+                },
+                interimResults: false,
+                verbose: true,// If you want interim results, set this to true
+            };
+
+        // Create a recognize stream
+        //io.on('connection',function(socket){
+        streamrecognize(request)
+        function streamrecognize(request) {
+            //io.on('connection',function(socket){
+            const recognizeStream = client
+                .streamingRecognize(request)
+                .on('error', console.error)
+                .on('data', data =>
+                    console.log(
+                        data.results[0] && data.results[0].alternatives[0]
+                            ? `Transcription: ${data.results[0].alternatives[0].transcript+ '\n\n '} `
+                            : streamrecognize(request)
+                    )
                 )
-            )
-            .on('data',data=>(app.textRequest(data.results[0].alternatives[0].transcript, options)).on('response',function(response){console.log((response.result.fulfillment.speech)),say.speak(response.result.fulfillment.speech)}).end());
-        //}
-        // Start recording and send the microphone input to the Speech API
-        //var micInputStream = micInstance.getAudioStream();
+                .on('data',data=>{socket.emit('chat message',data.results[0].alternatives[0].transcript)})
+                .on('data',data=>(app.textRequest(data.results[0].alternatives[0].transcript, options)).on('response',function(response){console.log((response.result.fulfillment.speech)),socket.emit('bot reply',response.result.fulfillment.speech),say.speak(response.result.fulfillment.speech)}).end());
+            //});
+            // Start recording and send the microphone input to the Speech API
+            //var micInputStream = micInstance.getAudioStream();
 
-        // micInputStream.pipe(recognizeStream);
+            // micInputStream.pipe(recognizeStream);
 
-        function dresponse(response){
-            console.log('Response'+response);
+            function dresponse(response){
+                console.log('Response'+response);
+            }
+            record
+                .start({
+                    sampleRateHertz: sampleRateHertz,
+                    threshold: 0,
+                    // Other options, see https://www.npmjs.com/package/node-record-lpcm16#options
+                    verbose: true,
+                    recordProgram: 'sox', // Try also "arecord" or "sox"
+                    silence: '10.0',
+                    //device:device,
+
+                })
+                .on('error', console.error)
+                .pipe(recognizeStream);
+
+            console.log('Listening, press Ctrl+C to stop.');
+            // [END speech_streaming_mic_recognize]
         }
-        record
-            .start({
-                sampleRateHertz: sampleRateHertz,
-                threshold: 0,
-                // Other options, see https://www.npmjs.com/package/node-record-lpcm16#options
-                verbose: true,
-                recordProgram: 'sox', // Try also "arecord" or "sox"
-                silence: '10.0',
-                //device:device,
-
-            })
-            .on('error', console.error)
-            .pipe(recognizeStream);
-
-        console.log('Listening, press Ctrl+C to stop.');
-        // [END speech_streaming_mic_recognize]
-    }
-}
+    });}
 require(`yargs`)
     .demand(1)
     .command(
