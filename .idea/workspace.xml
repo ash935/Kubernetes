@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="246dc847-a91e-4118-b783-51f92a772612" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/public/css/styles.css" afterPath="$PROJECT_DIR$/samples/public/css/styles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/public/js/script.js" afterPath="$PROJECT_DIR$/samples/public/js/script.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/recognize.js" afterPath="$PROJECT_DIR$/samples/recognize.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/views/index.html" afterPath="$PROJECT_DIR$/samples/views/index.html" />
-    </list>
+    <list default="true" id="246dc847-a91e-4118-b783-51f92a772612" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -23,8 +17,8 @@
       <file leaf-file-name="recognize.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/samples/recognize.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-17">
-              <caret line="474" column="30" lean-forward="false" selection-start-line="474" selection-start-column="30" selection-end-line="474" selection-end-column="30" />
+            <state relative-caret-position="-238">
+              <caret line="497" column="32" lean-forward="true" selection-start-line="497" selection-start-column="32" selection-end-line="497" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -169,7 +163,7 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
     <handled-path value="$PROJECT_DIR$/samples/node_modules" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="260" />
     <option name="y" value="20" />
     <option name="width" value="1400" />
@@ -302,12 +296,12 @@
       <workItem from="1517513222364" duration="1684000" />
       <workItem from="1517515030437" duration="1867000" />
       <workItem from="1517516927684" duration="505000" />
-      <workItem from="1517782444629" duration="200000" />
+      <workItem from="1517782444629" duration="245000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54884000" />
+    <option name="totallyTimeSpent" value="54929000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -319,7 +313,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11485775" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -715,8 +709,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/samples/recognize.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="474" column="30" lean-forward="false" selection-start-line="474" selection-start-column="30" selection-end-line="474" selection-end-column="30" />
+        <state relative-caret-position="-238">
+          <caret line="497" column="32" lean-forward="true" selection-start-line="497" selection-start-column="32" selection-end-line="497" selection-end-column="32" />
           <folding />
         </state>
       </provider>
