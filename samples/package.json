@@ -15,9 +15,16 @@
     "@google-cloud/speech": "^1.0.1",
     "@google-cloud/storage": "^1.5.2",
     "apiai": "^4.0.3",
+    "aws-sdk": "^2.188.0",
+    "dotenv": "^5.0.0",
+    "express": "^4.16.2",
     "google-speech-microphone": "^1.0.1",
     "mic": "^2.1.2",
     "node-record-lpcm16": "^0.3.0",
+    "node-uuid": "^1.4.8",
+    "say": "^0.14.0",
+    "socket.io": "^2.0.4",
+    "speaker": "^0.4.0",
     "yargs": "^10.1.2"
   },
   "devDependencies": {

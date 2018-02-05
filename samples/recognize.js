@@ -43,6 +43,25 @@ serverapp.get('/', (req, res) => {
     res.sendFile('index.html');
 });
 
+// Load the SDK
+const AWS = require('aws-sdk')
+const Stream = require('stream')
+const Speaker = require('speaker')
+
+
+AWS.config.accessKeyId='accessKeyId'
+AWS.config.secretAccessKey='secretAccessKey'
+AWS.config.region='us-east-1'
+// Create an Polly client
+const Polly = new AWS.Polly({
+    signatureVersion: 'v4',
+    region: 'us-east-1'
+})
+
+
+var params,err,data,text_response;
+
+
 function syncRecognize(filename, encoding, sampleRateHertz, languageCode) {
     // [START speech_sync_recognize]
     // Imports the Google Cloud client library
@@ -509,7 +528,7 @@ function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
                     )
                 )
                 .on('data',data=>{socket.emit('chat message',data.results[0].alternatives[0].transcript)})
-                .on('data',data=>(app.textRequest(data.results[0].alternatives[0].transcript, options)).on('response',function(response){console.log((response.result.fulfillment.speech)),socket.emit('bot reply',response.result.fulfillment.speech),say.speak(response.result.fulfillment.speech)}).end());
+                .on('data',data=>(app.textRequest(data.results[0].alternatives[0].transcript, options)).on('response',function(response){text_response=response.result.fulfillment.speech,console.log((response.result.fulfillment.speech)),socket.emit('bot reply',response.result.fulfillment.speech),PollyTTS(text_response,err,data)}).end());
             //});
             // Start recording and send the microphone input to the Speech API
             //var micInputStream = micInstance.getAudioStream();
@@ -518,6 +537,36 @@ function streamingMicRecognize(encoding, sampleRateHertz, languageCode,device) {
 
             function dresponse(response){
                 console.log('Response'+response);
+            }
+
+
+
+            function PollyTTS(text_response,err,data){
+                const Player = new Speaker({
+                    channels: 1,
+                    bitDepth: 16,
+                    sampleRate: 16000
+                })
+                let params = {
+                    'Text': text_response,
+                    'OutputFormat': 'pcm',
+                    'VoiceId': 'Kimberly'
+                }
+                Polly.synthesizeSpeech(params, (err, data) => {
+                    if (err) {
+                        console.log(err.code)
+                    } else  {
+
+                        // Initiate the source
+                        var bufferStream = new Stream.PassThrough()
+                        // convert AudioStream into a readable stream
+                        bufferStream.end(data.AudioStream)
+                        // Pipe into Player
+                        bufferStream.pipe(Player)
+
+
+                    }
+                })
             }
             record
                 .start({
