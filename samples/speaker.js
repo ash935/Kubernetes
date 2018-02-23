@@ -2,6 +2,7 @@
 const AWS = require('aws-sdk')
 const Stream = require('stream')
 const Speaker = require('speaker')
+const util = require('util')
 
 
 AWS.config.accessKeyId='accessKeyId'
@@ -32,6 +33,9 @@ Polly.synthesizeSpeech(params, (err, data) => {
     } else if (data) {
         if (data.AudioStream instanceof Buffer) {
             // Initiate the source
+            console.log(data)
+            console.log(JSON.stringify(data.AudioStream, false, null))
+
             var bufferStream = new Stream.PassThrough()
             // convert AudioStream into a readable stream
             bufferStream.end(data.AudioStream)
